@@ -98,9 +98,19 @@ sys_hello(void)
   return 0;
 }
 
-// info
+// This is the function when it is called from the sysproc side.
+// It calls the internal function of info(int) to get the value that
+// this assignment is asking for.
 int
 sys_info(void)
 {
-  return info();
+  // Because the system call handles void information passed,
+  // you must use argint() to get the argument value from the list
+  // of parameters passed.  If it is -1 then it couldn't read anything.
+  int type;
+  if(argint(0, &type) < 0)
+    return -1;
+
+  // Call the internal function to do this system call.
+  return info(type);
 }

@@ -534,14 +534,45 @@ procdump(void)
 }
 
 // hello
-void print_hello(void)
+void 
+print_hello(void)
 {
   cprintf("Hello from the kernel space\n");
 }
 
-// info
-int info(void)
+// Info() Function
+// Used to do the operations for lab 1 based on what type is passed in.
+// 1 : To find the number of processes that are active right now, the process table
+//     must have a process that is not UNUSED.  Count all processes that are not
+//     unused and return the count at at the end to get the total processes active.
+// 2 : To find the number of system calls this process has done syscall() is looked
+//     at in the syscall.c file.  Whenever that function is called, the count of
+//     num_syscalls for that process is increased and when info() calls it, it 
+//     returns the value here.
+// 3 : To find the size, it is the amount of memory this process has allocated divided
+//     by 4096 (1 Block = 4096 bytes).  
+int
+info(int type)
 {
-  cprintf("Placeholder for info func\n");
-  return 0;
+  if(type == 1) {
+    // Count all processes for option 1 of info()
+    int count = 0;
+    struct proc *p;
+    for(p = ptable.proc; p < &ptable.proc[NPROC]; p++) {
+      // If the state is not UNUSED then it is a process in motion (count it).
+      if(p->state != UNUSED) {
+        count++;
+      }
+    }
+    return count;
+  }
+  else if(type == 2) {
+    // Return the syscall count for the running process myproc().
+    return myproc()->num_syscalls;
+  }
+  else if(type == 3) {
+    // Return the number of blocks used based on the process size.
+    return myproc()->sz / 4096;
+  }
+  return -1;
 }
