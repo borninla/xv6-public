@@ -91,8 +91,16 @@ sys_uptime(void)
 }
 
 // hello
-int sys_hello(void)
+int 
+sys_hello(void)
 {
   print_hello();
   return 0;
+}
+
+// info
+int
+sys_info(void)
+{
+  return info();
 }

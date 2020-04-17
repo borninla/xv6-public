@@ -538,3 +538,10 @@ void print_hello(void)
 {
   cprintf("Hello from the kernel space\n");
 }
+
+// info
+int info(void)
+{
+  cprintf("Placeholder for info func\n");
+  return 0;
+}
